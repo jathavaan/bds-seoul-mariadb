@@ -12,3 +12,5 @@ class Config(Enum):
     KAFKA_BOOTSTRAP_SERVERS = os.getenv('KAFKA_BOOTSTRAP_SERVERS')
     KAFKA_GROUP_ID = "mariadb_consumer_group"
     KAFKA_TOPIC = "game_topic"
+
+    LOGGER_WIDTH_OFFSET = 75

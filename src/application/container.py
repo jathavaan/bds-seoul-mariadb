@@ -6,4 +6,4 @@ from src.application.common import Logger
 
 
 class Container(containers.DeclarativeContainer):
-    logger = providers.Factory(Logger.get_logger, name="app-logger", level=logging.INFO)
+    logger = providers.Factory(Logger.get_logger, name="MariaDB Consumer", level=logging.INFO)
