@@ -10,20 +10,19 @@ class Logger:
     @staticmethod
     def get_logger(
             name: str,
-            log_file: str = os.path.join("logs", "app.log"),
-            level: int = logging.INFO
+            level: int,
     ) -> logging.Logger:
         """
         Returns a logger instance. Ensures that loggers are reused across the project.
 
         :param name: Name of the logger.
-        :param log_file: Path to the log file.
         :param level: Logging level (e.g., logging.INFO, logging.DEBUG).
         :return: Configured logger instance.
         """
         if name in Logger._instances:
             return Logger._instances[name]
 
+        log_file = os.path.join("logs", "app.log")
         log_path = Path(log_file).parent
         log_path.mkdir(parents=True, exist_ok=True)
 
