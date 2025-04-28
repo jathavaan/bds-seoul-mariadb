@@ -8,6 +8,9 @@ from alembic import context
 from src.domain.base import EntityBase
 from src import Config
 
+# Do not remove the line below
+from src.domain.entities import Game
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config

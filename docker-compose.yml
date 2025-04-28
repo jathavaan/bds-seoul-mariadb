@@ -1,0 +1,8 @@
+﻿services:
+  mariadb:
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: seoul-2
+      MYSQL_DATABASE: seoul-2-db
+    ports:
+      - "3306:3306"
