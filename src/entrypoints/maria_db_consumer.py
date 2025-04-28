@@ -20,7 +20,11 @@ class MariaDbConsumer:
             "enable.auto.commit": True
         })
 
-        self.__logger.info(f"Connected to bootstrap server @ {Config.KAFKA_BOOTSTRAP_SERVERS.value}")
+        self.__consumer.subscribe(Config.KAFKA_TOPICS.value)
+        self.__logger.info(
+            f"Kafka Consumer connected to bootstrap server [{Config.KAFKA_BOOTSTRAP_SERVERS.value}] "
+            f"with group ID {Config.KAFKA_GROUP_ID.value}, subscribed to topic(s): {', '.join(Config.KAFKA_TOPICS.value)}"
+        )
 
     def consume(self) -> None:
         count = 1
