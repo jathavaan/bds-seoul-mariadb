@@ -30,8 +30,6 @@ class MariaDbConsumer:
         count = 1
         while True:
             message = self.__consumer.poll(1.0)
-            self.__logger.info(f"No. messages received: {count}")
-            count += 1
 
             if not message:
                 continue
@@ -40,7 +38,10 @@ class MariaDbConsumer:
                 self.__logger.error(message.error())
                 continue
 
-            self.__logger.info(message.as_string())
+            self.__logger.info(
+                f"Received message on topic '{message.topic()}' [partition {message.partition()}] "
+                f"offset {message.offset()}: key={message.key()} value={message.value().decode('utf-8')}"
+            )
 
     def close(self) -> None:
         self.__logger.info("Shutting down MariaDB consumer")
