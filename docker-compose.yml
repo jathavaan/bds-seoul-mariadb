@@ -6,6 +6,7 @@
       MYSQL_DATABASE: seoul-2-db
     ports:
       - "3306:3306"
+
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     depends_on:
