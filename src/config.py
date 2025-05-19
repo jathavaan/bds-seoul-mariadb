@@ -13,4 +13,4 @@ class Config(Enum):
     KAFKA_GROUP_ID = "mariadb_consumer_group"
     KAFKA_TOPICS = ["reviews"]
 
-    LOGGER_WIDTH_OFFSET = 75
+    LOGGER_WIDTH_OFFSET = 90
