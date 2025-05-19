@@ -20,14 +20,14 @@ class MariaDbConsumer:
             "enable.auto.commit": True
         })
 
-        self.__consumer.subscribe(Config.KAFKA_TOPICS.value)
+        topics = [Config.KAFKA_REVIEW_TOPIC.value]
+        self.__consumer.subscribe(topics)
         self.__logger.info(
             f"Kafka Consumer connected to bootstrap server [{Config.KAFKA_BOOTSTRAP_SERVERS.value}] "
-            f"with group ID {Config.KAFKA_GROUP_ID.value}, subscribed to topic(s): {', '.join(Config.KAFKA_TOPICS.value)}"
+            f"with group ID {Config.KAFKA_GROUP_ID.value}, subscribed to topic(s): {', '.join(topics)}"
         )
 
     def consume(self) -> None:
-        count = 1
         while True:
             message = self.__consumer.poll(1.0)
 
