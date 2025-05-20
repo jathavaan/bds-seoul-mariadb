@@ -44,10 +44,10 @@
       - seq-data:/data
     restart: unless-stopped
 
-  script:
+  database-script:
     build:
       context: .
-      dockerfile: script.dockerfile
+      dockerfile: database-script.dockerfile
     env_file:
       - .env
     volumes:
