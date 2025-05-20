@@ -14,6 +14,7 @@ class Config(Enum):
     KAFKA_GROUP_ID = "mariadb_consumer_group"
     KAFKA_REVIEW_TOPIC = "reviews"
     KAFKA_RESULT_TOPIC = "results"
+    KAFKA_POLL_TIMEOUT = 1.0
 
     LOGGING_LEVEL = logging.INFO
     LOGGER_WIDTH_OFFSET = 90

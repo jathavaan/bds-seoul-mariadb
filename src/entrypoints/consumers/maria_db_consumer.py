@@ -4,14 +4,16 @@ from confluent_kafka import Consumer
 
 from src import Config
 from src.application import Container
+from src.entrypoints.base import ConsumerBase
 
 
-class MariaDbConsumer:
+class MariaDbConsumer(ConsumerBase):
     __consumer: Consumer
     __logger: logging.Logger
 
     def __init__(self):
         container = Container()
+
         self.__logger = container.logger()
         self.__consumer = Consumer({
             "bootstrap.servers": Config.KAFKA_BOOTSTRAP_SERVERS.value,
@@ -28,20 +30,19 @@ class MariaDbConsumer:
         )
 
     def consume(self) -> None:
-        while True:
-            message = self.__consumer.poll(1.0)
+        message = self.__consumer.poll(1.0)
 
-            if not message:
-                continue
+        if not message:
+            return
 
-            if message.error():
-                self.__logger.error(message.error())
-                continue
+        if message.error():
+            self.__logger.error(message.error())
+            return
 
-            self.__logger.info(
-                f"Received message on topic '{message.topic()}' [partition {message.partition()}] "
-                f"offset {message.offset()}: key={message.key()} value={message.value().decode('utf-8')}"
-            )
+        self.__logger.info(
+            f"Received message on topic '{message.topic()}' [partition {message.partition()}] "
+            f"offset {message.offset()}: key={message.key()} value={message.value().decode('utf-8')}"
+        )
 
     def close(self) -> None:
         self.__logger.info("Shutting down MariaDB consumer")

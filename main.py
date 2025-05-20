@@ -1,4 +1,4 @@
-from src.entrypoints import MariaDbConsumer
+from src.entrypoints.consumers import MariaDbConsumer, MapreduceResultConsumer
 
 
 def main() -> None:
@@ -6,10 +6,14 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    consumer = MariaDbConsumer()
     try:
-        consumer.consume()
+        maria_db_consumer = MariaDbConsumer()
+        # mapreduce_result_consumer = MapreduceResultConsumer()
+
+        while True:
+            continue
+            maria_db_consumer.consume()
     except KeyboardInterrupt:
         pass
     finally:
-        consumer.close()
+        maria_db_consumer.close()
