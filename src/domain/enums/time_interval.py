@@ -6,7 +6,7 @@ class TimeInterval(Enum):
     FIFTY_TO_NINETY_NINE = 1
     HUNDRED_TO_HUNDRED_NINETY_NINE = 2
     TWO_HUNDRED_TO_FOUR_HUNDRED_NINETY_NINE = 3
-    FIFE_HUNDRED_PLUS = 4
+    FIVE_HUNDRED_PLUS = 4
 
     @classmethod
     def from_value(cls, value: str) -> "TimeInterval":
@@ -20,6 +20,6 @@ class TimeInterval(Enum):
             case "200-499":
                 return cls.TWO_HUNDRED_TO_FOUR_HUNDRED_NINETY_NINE
             case "500+":
-                return cls.FIFE_HUNDRED_PLUS
+                return cls.FIVE_HUNDRED_PLUS
             case _:
                 raise ValueError(f"No TimeInterval matches value: {value}")
