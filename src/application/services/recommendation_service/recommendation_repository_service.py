@@ -1,7 +1,7 @@
 ﻿import logging
 from typing import Sequence
 
-from sqlalchemy import select, insert
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from src.domain.entities import Recommendation
@@ -50,8 +50,8 @@ class RecommendationRepositoryService:
                 )
                 return False
 
-            recommendations.sort(key=lambda x: x.time_interval)
-            recommendation_dtos.sort(key=lambda x: x.time_interval)
+            recommendations.sort(key=lambda x: x.time_interval.value)
+            recommendation_dtos.sort(key=lambda x: x.time_interval.value)
 
             for (entity, dto) in zip(recommendations, recommendation_dtos):
                 entity.sum_recommended += int(dto.sum_recommended)

@@ -49,8 +49,13 @@ class MapreduceResultConsumer(ConsumerBase[bool]):
             return False
 
         self.__logger.info("Result from MapReduce received... Saving results in database")
-        steam_game_id = message.key()
+        steam_game_id = int(message.key().decode('utf-8')) if message.key() else None
+        if not steam_game_id:
+            self.__logger.error("Steam game ID not provided")
+            return False
+
         mapreduce_result: dict[str, tuple[float, float]] = json.loads(message.value().decode("utf-8"))
+
         playtime_recommendation_dtos: list[RecommendationDto] = []
 
         for key, values in mapreduce_result.items():

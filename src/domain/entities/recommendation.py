@@ -19,10 +19,17 @@ class Recommendation(EntityBase):
     sum_not_recommended: Mapped[int] = Column(Integer, nullable=False)
     game_id: Mapped[int] = Column(Integer, ForeignKey("games.id", ondelete="CASCADE"), nullable=False)
 
-    game: Mapped["Game"] = relationship("Game", back_populates="recommendation")
+    game: Mapped["Game"] = relationship("Game", back_populates="recommendations")
 
-    def __init__(self, game_id: int, time_interval: str, sum_recommended: int, sum_not_recommended: int) -> None:
+    def __init__(
+            self,
+            game_id: int,
+            time_interval: TimeInterval,
+            sum_recommended: int,
+            sum_not_recommended: int
+    ) -> None:
         super().__init__()
-        self.time_interval = TimeInterval.from_value(time_interval)
+        self.time_interval = time_interval
         self.sum_recommended = sum_recommended
         self.sum_not_recommended = sum_not_recommended
+        self.game_id = game_id

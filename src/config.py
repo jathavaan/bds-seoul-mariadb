@@ -16,7 +16,7 @@ class Config(Enum):
     KAFKA_RESULT_TOPIC = "results"
     KAFKA_POLL_TIMEOUT = 1.0
 
-    LOGGING_LEVEL = logging.INFO
+    LOGGING_LEVEL = logging.DEBUG
     LOGGER_WIDTH_OFFSET = 90
     SEQ_URL = f"http://{os.getenv('SEQ_SERVER')}:{os.getenv('SEQ_PORT')}"
     SEQ_LOG_BATCH_SIZE = 1
