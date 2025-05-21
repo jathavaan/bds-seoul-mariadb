@@ -12,9 +12,11 @@ class Config(Enum):
 
     KAFKA_BOOTSTRAP_SERVERS = f"{os.getenv('KAFKA_BOOTSTRAP_SERVERS')}:9092"
     KAFKA_GROUP_ID = "mariadb_consumer_group"
+    KAFKA_POLL_TIMEOUT = 1.0
     KAFKA_REVIEW_TOPIC = "reviews"
     KAFKA_RESULT_TOPIC = "results"
-    KAFKA_POLL_TIMEOUT = 1.0
+    KAFKA_LAST_SCRAPED_DATE_REQ = "last_scraped_date_requests"
+    KAFKA_LAST_SCRAPED_DATE_RES = "last_scraped_date_responses"
 
     LOGGING_LEVEL = logging.DEBUG
     LOGGER_WIDTH_OFFSET = 90
