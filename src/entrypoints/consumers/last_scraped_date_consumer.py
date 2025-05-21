@@ -1,13 +1,16 @@
-﻿import logging
+﻿import json
+import logging
+from datetime import datetime
 
 from confluent_kafka import Consumer
 
 from src import Config
-from src.application.services.game_service import GameRepositoryService, LastScrapedDateDto
+from src.application.services.game_service import GameRepositoryService, LastScrapedDateResponseDto, \
+    LastScrapedDateRequestDto
 from src.entrypoints.base import ConsumerBase
 
 
-class LastScrapedDateConsumer(ConsumerBase[LastScrapedDateDto]):
+class LastScrapedDateConsumer(ConsumerBase[LastScrapedDateResponseDto]):
     __logger: logging.Logger
     __consumer: Consumer
     __game_repository_service: GameRepositoryService
@@ -30,8 +33,30 @@ class LastScrapedDateConsumer(ConsumerBase[LastScrapedDateDto]):
             f"with group ID {Config.KAFKA_GROUP_ID.value}, subscribed to topic(s): {', '.join(topics)}"
         )
 
-    def consume(self) -> tuple[bool, LastScrapedDateDto]:
-        pass
+    def consume(self) -> tuple[bool, LastScrapedDateResponseDto | None]:
+        message = self.__consumer.poll(Config.KAFKA_POLL_TIMEOUT.value)
+
+        if not message:
+            return False, None
+
+        if message.error():
+            self.__logger.error(message.error())
+            return False, None
+
+        request = LastScrapedDateRequestDto(**json.loads(message.value().decode("utf-8")))
+        self.__logger.info(f"Request last scraped date for Steam game ID {request.game_id} received")
+
+        game = self.__game_repository_service.find_gam_by_steam_game_id(request.game_id)
+        if not game:
+            self.__logger.info(f"No game found for Steam game ID {request.game_id}")
+            return False, None
+
+        response = LastScrapedDateResponseDto(
+            steam_game_id=game.steam_game_id,
+            last_scraped_date=game.last_scraped_timestamp
+        )
+
+        return True, response
 
     def close(self) -> None:
         pass

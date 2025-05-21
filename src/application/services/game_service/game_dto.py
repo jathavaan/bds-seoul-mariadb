@@ -8,7 +8,11 @@ class GameDto:
 
 
 @dataclass
-class LastScrapedDateDto:
+class LastScrapedDateRequestDto:
     game_id: int
+
+
+@dataclass
+class LastScrapedDateResponseDto:
     steam_game_id: int
-    last_scraped_date: datetime
+    last_scraped_date: datetime | None

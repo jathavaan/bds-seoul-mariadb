@@ -68,15 +68,15 @@ class MapreduceResultConsumer(ConsumerBase[bool]):
 
             playtime_recommendation_dtos.append(dto)
 
-        game_id = self.__game_repository_service.find_game_id_by_steam_game_id(steam_game_id)
-        if not game_id:
+        game = self.__game_repository_service.find_gam_by_steam_game_id(steam_game_id)
+        if not game:
             self.__logger.error(
                 f"Trying to search for a Steam Game ID [{steam_game_id}] that have not been added to the database yet. The data is broken and cannot be added "
             )
             return False
 
         self.__recommendation_repository_service.upsert_result(
-            game_id=game_id,
+            game_id=game.id,
             recommendation_dtos=playtime_recommendation_dtos
         )
 
