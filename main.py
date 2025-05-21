@@ -12,7 +12,7 @@ def main() -> None:
     mapreduce_result_consumer = MapreduceResultConsumer(
         logger=logger,
         game_repository_service=game_repository_service,
-        playtime_recommendation_repository_service=recommendation_repository_service
+        recommendation_repository_service=recommendation_repository_service
     )
 
     try:

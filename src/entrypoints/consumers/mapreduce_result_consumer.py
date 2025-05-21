@@ -13,17 +13,17 @@ class MapreduceResultConsumer(ConsumerBase[bool]):
     __consumer: Consumer
     __logger: Logger
     __game_repository_service: GameRepositoryService
-    __playtime_recommendation_repository_service: RecommendationRepositoryService
+    __recommendation_repository_service: RecommendationRepositoryService
 
     def __init__(
             self,
             logger: Logger,
             game_repository_service: GameRepositoryService,
-            playtime_recommendation_repository_service: RecommendationRepositoryService
+            recommendation_repository_service: RecommendationRepositoryService
     ):
         self.__logger = logger
         self.__game_repository_service = game_repository_service
-        self.__playtime_recommendation_repository_service = playtime_recommendation_repository_service
+        self.__recommendation_repository_service = recommendation_repository_service
         topics = [Config.KAFKA_RESULT_TOPIC.value]
         self.__consumer = Consumer({
             "bootstrap.servers": Config.KAFKA_BOOTSTRAP_SERVERS.value,
@@ -75,7 +75,7 @@ class MapreduceResultConsumer(ConsumerBase[bool]):
             )
             return False
 
-        self.__playtime_recommendation_repository_service.upsert_result(
+        self.__recommendation_repository_service.upsert_result(
             game_id=game_id,
             recommendation_dtos=playtime_recommendation_dtos
         )
