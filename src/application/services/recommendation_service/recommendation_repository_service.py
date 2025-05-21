@@ -5,6 +5,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from src.domain.entities import Recommendation
+from src.domain.enums import TimeInterval
 from .recommendation_dto import RecommendationDto
 
 
@@ -42,13 +43,54 @@ class RecommendationRepositoryService:
 
                 recommendations.append(recommendation)
 
+            for interval in TimeInterval:
+                if interval not in [dto.time_interval for dto in recommendation_dtos]:
+                    recommendation = Recommendation(
+                        game_id=game_id,
+                        time_interval=interval,
+                        sum_recommended=0,
+                        sum_not_recommended=0
+                    )
+
+                    recommendations.append(recommendation)
+
             self.insert_recommendations(recommendations)
         else:
-            if len(recommendations) != len(recommendation_dtos):
-                self.__logger.error(
-                    f"Failed to update recommendations for game [internal game ID: {game_id}]. Found {len(recommendations)} records in DB, but received {len(recommendation_dtos)} records to update"
+            number_of_recommendations = len(recommendations)
+            number_of_recommendation_dtos = len(recommendation_dtos)
+            if number_of_recommendations != number_of_recommendation_dtos:
+                self.__logger.warning(
+                    f"Game [internal game ID: {game_id}] received {number_of_recommendation_dtos} recommendations, but {number_of_recommendations} already exist in the database. This is not an error, but is rare and should be investigated."
                 )
-                return False
+
+                if number_of_recommendations > number_of_recommendation_dtos:
+                    for time_interval in TimeInterval:
+                        if time_interval not in [
+                            recommendation_dto.time_interval for recommendation_dto in recommendation_dtos
+                        ]:
+                            recommendation_dtos.append(RecommendationDto(
+                                time_interval=time_interval,
+                                sum_recommended=0,
+                                sum_not_recommended=0
+                            ))
+                elif number_of_recommendations < number_of_recommendation_dtos:
+                    recommendations_to_add: list[Recommendation] = []
+                    for time_interval in TimeInterval:
+                        if time_interval not in [
+                            recommendation.time_interval for recommendation in recommendations
+                        ]:
+                            empty_recommendation = Recommendation(
+                                game_id=game_id,
+                                time_interval=time_interval,
+                                sum_recommended=0,
+                                sum_not_recommended=0
+                            )
+
+                            recommendations.append(empty_recommendation)
+                            recommendations_to_add.append(empty_recommendation)
+
+                    if recommendations_to_add:
+                        self.__db_session.add_all(recommendations_to_add)
 
             recommendations.sort(key=lambda x: x.time_interval.value)
             recommendation_dtos.sort(key=lambda x: x.time_interval.value)
