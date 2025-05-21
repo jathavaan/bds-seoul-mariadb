@@ -3,12 +3,11 @@
 from confluent_kafka import Consumer
 
 from src import Config
-from src.application.services.game_service import GameRepositoryService
+from src.application.services.game_service import GameRepositoryService, LastScrapedDateDto
 from src.entrypoints.base import ConsumerBase
-from src.entrypoints.base.kafka_base import T
 
 
-class LastScrapedDateConsumer(ConsumerBase):
+class LastScrapedDateConsumer(ConsumerBase[LastScrapedDateDto]):
     __logger: logging.Logger
     __consumer: Consumer
     __game_repository_service: GameRepositoryService
@@ -31,7 +30,7 @@ class LastScrapedDateConsumer(ConsumerBase):
             f"with group ID {Config.KAFKA_GROUP_ID.value}, subscribed to topic(s): {', '.join(topics)}"
         )
 
-    def consume(self) -> tuple[bool, T]:
+    def consume(self) -> tuple[bool, LastScrapedDateDto]:
         pass
 
     def close(self) -> None:
