@@ -1,15 +1,28 @@
-from src.entrypoints import MariaDbConsumer
+from src.application import Container
+from src.entrypoints.consumers import MapreduceResultConsumer
+
+container = Container()
+
+logger = container.logger()
+game_repository_service = container.game_repository_service()
+recommendation_repository_service = container.recommendation_repository_service()
 
 
 def main() -> None:
-    pass
+    mapreduce_result_consumer = MapreduceResultConsumer(
+        logger=logger,
+        game_repository_service=game_repository_service,
+        recommendation_repository_service=recommendation_repository_service
+    )
 
-
-if __name__ == "__main__":
-    consumer = MariaDbConsumer()
     try:
-        consumer.consume()
+        while True:
+            mapreduce_result_consumer.consume()
     except KeyboardInterrupt:
         pass
     finally:
-        consumer.close()
+        mapreduce_result_consumer.close()
+
+
+if __name__ == "__main__":
+    main()

@@ -1,19 +1,31 @@
 ﻿from datetime import datetime
+from typing import TYPE_CHECKING
 
 from sqlalchemy import Column, Integer, DateTime
+from sqlalchemy.orm import relationship, Mapped
 
 from src.domain.base import EntityBase
+
+if TYPE_CHECKING:
+    from src.domain.entities import Recommendation
 
 
 class Game(EntityBase):
     __tablename__ = "games"
 
-    id: int = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
-    created_timestamp: datetime = Column(DateTime, nullable=False)
-    last_scraped_timestamp: datetime = Column(DateTime, nullable=False)
-    steam_game_id: int = Column(Integer, nullable=False)
+    id: Mapped[int] = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
+    created_timestamp: Mapped[datetime] = Column(DateTime, nullable=False)
+    last_scraped_timestamp: Mapped[datetime] = Column(DateTime, nullable=False)
+    steam_game_id: Mapped[int] = Column(Integer, nullable=False)
+
+    recommendations: Mapped[list["Recommendation"]] = relationship(
+        "Recommendation",
+        back_populates="game",
+        cascade="all, delete-orphan"
+    )
 
     def __init__(self, steam_game_id: int):
+        super().__init__()
         self.steam_game_id = steam_game_id
         current_timestamp = datetime.now()
         self.created_timestamp = current_timestamp
