@@ -32,10 +32,8 @@
     image: datalust/seq:latest
     environment:
       - ACCEPT_EULA=Y
-      - "SEQ_API_LISTENURIS=http://0.0.0.0:80"
-      - "SEQ_API_INGESTIONPORTS=80"
     ports:
-      - "80:80"
+      - "8887:8887"
       - "5341:5341"
     volumes:
       - seq-data:/data
