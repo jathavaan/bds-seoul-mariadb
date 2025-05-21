@@ -4,8 +4,8 @@ from typing import Sequence
 from sqlalchemy import select, insert
 from sqlalchemy.orm import Session
 
-from src.application.services.recommendation_service import RecommendationDto
 from src.domain.entities import Recommendation
+from .recommendation_dto import RecommendationDto
 
 
 class RecommendationRepositoryService:
