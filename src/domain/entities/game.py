@@ -7,7 +7,7 @@ from sqlalchemy.orm import relationship, Mapped
 from src.domain.base import EntityBase
 
 if TYPE_CHECKING:
-    from src.domain.entities.playtime_recommendation import PlaytimeRecommendation
+    from src.domain.entities import Recommendation
 
 
 class Game(EntityBase):
@@ -18,8 +18,8 @@ class Game(EntityBase):
     last_scraped_timestamp: Mapped[datetime] = Column(DateTime, nullable=False)
     steam_game_id: Mapped[int] = Column(Integer, nullable=False)
 
-    playtime_recommendations: Mapped[list["PlaytimeRecommendation"]] = relationship(
-        "PlaytimeRecommendation",
+    recommendations: Mapped[list["Recommendation"]] = relationship(
+        "Recommendation",
         back_populates="game",
         cascade="all, delete-orphan"
     )

@@ -10,8 +10,8 @@ if TYPE_CHECKING:
     from src.domain.entities import Game
 
 
-class PlaytimeRecommendation(EntityBase):
-    __tablename__ = "playtime_recommendations"
+class Recommendation(EntityBase):
+    __tablename__ = "recommendations"
 
     id: Mapped[int] = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
     time_interval: Mapped[TimeInterval] = Column(Enum(TimeInterval, name="time_interval"), nullable=False)
@@ -19,7 +19,7 @@ class PlaytimeRecommendation(EntityBase):
     sum_not_recommended: Mapped[int] = Column(Integer, nullable=False)
     game_id: Mapped[int] = Column(Integer, ForeignKey("games.id", ondelete="CASCADE"), nullable=False)
 
-    game: Mapped["Game"] = relationship("Game", back_populates="playtime_recommendation")
+    game: Mapped["Game"] = relationship("Game", back_populates="recommendation")
 
     def __init__(self, game_id: int, time_interval: str, sum_recommended: int, sum_not_recommended: int) -> None:
         super().__init__()

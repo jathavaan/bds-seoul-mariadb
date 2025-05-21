@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker, Session
 from src import Config
 from src.application.common import Logger
 from src.application.services.game_service import GameRepositoryService
-from src.application.services.playtime_recommendation_service import PlaytimeRecommendationRepositoryService
+from src.application.services.recommendation_service import RecommendationRepositoryService
 
 from src.domain.base import EntityBase
 
@@ -28,8 +28,8 @@ class Container(containers.DeclarativeContainer):
         logger=logger
     )
 
-    playtime_recommendation_repository_service = providers.Singleton(
-        PlaytimeRecommendationRepositoryService,
+    recommendation_repository_service = providers.Singleton(
+        RecommendationRepositoryService,
         db_session=db_session,
         logger=logger
     )

@@ -9,7 +9,7 @@ from src.domain.base import EntityBase
 from src import Config
 
 # Do not remove the import statements below
-from src.domain.entities import Game, PlaytimeRecommendation
+from src.domain.entities import Game, Recommendation
 from src.domain.enums import TimeInterval
 
 # this is the Alembic Config object, which provides

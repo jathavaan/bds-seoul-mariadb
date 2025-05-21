@@ -5,8 +5,7 @@ from confluent_kafka import Consumer
 
 from src import Config
 from src.application.services.game_service import GameRepositoryService
-from src.application.services.playtime_recommendation_service import PlaytimeRecommendationDto, \
-    PlaytimeRecommendationRepositoryService
+from src.application.services.recommendation_service import RecommendationDto, RecommendationRepositoryService
 from src.entrypoints.base import ConsumerBase
 
 
@@ -14,13 +13,13 @@ class MapreduceResultConsumer(ConsumerBase[bool]):
     __consumer: Consumer
     __logger: Logger
     __game_repository_service: GameRepositoryService
-    __playtime_recommendation_repository_service: PlaytimeRecommendationRepositoryService
+    __playtime_recommendation_repository_service: RecommendationRepositoryService
 
     def __init__(
             self,
             logger: Logger,
             game_repository_service: GameRepositoryService,
-            playtime_recommendation_repository_service: PlaytimeRecommendationRepositoryService
+            playtime_recommendation_repository_service: RecommendationRepositoryService
     ):
         self.__logger = logger
         self.__game_repository_service = game_repository_service
@@ -52,11 +51,11 @@ class MapreduceResultConsumer(ConsumerBase[bool]):
         self.__logger.info("Result from MapReduce received... Saving results in database")
         steam_game_id = message.key()
         mapreduce_result: dict[str, tuple[float, float]] = json.loads(message.value().decode("utf-8"))
-        playtime_recommendation_dtos: list[PlaytimeRecommendationDto] = []
+        playtime_recommendation_dtos: list[RecommendationDto] = []
 
         for key, values in mapreduce_result.items():
             sum_recommended, sum_not_recommended = values
-            dto = PlaytimeRecommendationDto(
+            dto = RecommendationDto(
                 time_interval=key,
                 sum_recommended=sum_recommended,
                 sum_not_recommended=sum_not_recommended
@@ -73,7 +72,7 @@ class MapreduceResultConsumer(ConsumerBase[bool]):
 
         self.__playtime_recommendation_repository_service.upsert_result(
             game_id=game_id,
-            playtime_recommendation_dtos=playtime_recommendation_dtos
+            recommendation_dtos=playtime_recommendation_dtos
         )
 
         return True
