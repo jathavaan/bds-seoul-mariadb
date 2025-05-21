@@ -9,14 +9,15 @@ load_dotenv()
 
 class Config(Enum):
     SQLALCHEMY_DATABASE_URI = f"mariadb+mariadbconnector://{os.getenv('DB_USERNAME')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
+    SQLALCHEMY_STARTUP_WAIT_TIME = 10
 
     KAFKA_BOOTSTRAP_SERVERS = f"{os.getenv('KAFKA_BOOTSTRAP_SERVERS')}:9092"
     KAFKA_GROUP_ID = "mariadb_consumer_group"
     KAFKA_POLL_TIMEOUT = 1.0
     KAFKA_REVIEW_TOPIC = "reviews"
     KAFKA_RESULT_TOPIC = "results"
-    KAFKA_LAST_SCRAPED_DATE_REQ = "last_scraped_date_requests"
-    KAFKA_LAST_SCRAPED_DATE_RES = "last_scraped_date_responses"
+    KAFKA_LAST_SCRAPED_DATE_REQ_TOPIC = "last_scraped_date_requests"
+    KAFKA_LAST_SCRAPED_DATE_RES_TOPIC = "last_scraped_date_responses"
 
     LOGGING_LEVEL = logging.DEBUG
     LOGGER_WIDTH_OFFSET = 90

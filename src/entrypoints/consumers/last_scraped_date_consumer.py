@@ -19,7 +19,7 @@ class LastScrapedDateConsumer(ConsumerBase[LastScrapedDateResponseDto]):
         self.__logger = logger
         self.__game_repository_service = game_repository_service
 
-        topics = [Config.KAFKA_LAST_SCRAPED_DATE_REQ.value]
+        topics = [Config.KAFKA_LAST_SCRAPED_DATE_REQ_TOPIC.value]
         self.__consumer = Consumer({
             "bootstrap.servers": Config.KAFKA_BOOTSTRAP_SERVERS.value,
             "group.id": Config.KAFKA_GROUP_ID.value,
@@ -59,4 +59,5 @@ class LastScrapedDateConsumer(ConsumerBase[LastScrapedDateResponseDto]):
         return True, response
 
     def close(self) -> None:
-        pass
+        self.__consumer.close()
+        self.__logger.info("Closed Last Scraped Date Consumer")

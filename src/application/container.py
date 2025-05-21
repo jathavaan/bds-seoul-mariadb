@@ -1,4 +1,7 @@
-﻿from dependency_injector import containers, providers
+﻿import logging
+import time
+
+from dependency_injector import containers, providers
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
 
@@ -10,17 +13,18 @@ from src.application.services.recommendation_service import RecommendationReposi
 from src.domain.base import EntityBase
 
 
-def create_db_session() -> Session:
+def create_db_session(logger: logging.Logger) -> Session:
+    logger.info(f"Waiting {Config.SQLALCHEMY_STARTUP_WAIT_TIME.value} seconds while waiting for the database container")
+    time.sleep(Config.SQLALCHEMY_STARTUP_WAIT_TIME.value)
     engine = create_engine(Config.SQLALCHEMY_DATABASE_URI.value)
     session_maker = sessionmaker(bind=engine)
     EntityBase.metadata.create_all(engine)
-
     return session_maker()
 
 
 class Container(containers.DeclarativeContainer):
-    db_session = providers.Singleton(create_db_session)
     logger = providers.Singleton(Logger.get_logger, name="MariaDB", level=Config.LOGGING_LEVEL.value)
+    db_session = providers.Singleton(create_db_session, logger=logger)
 
     game_repository_service = providers.Singleton(
         GameRepositoryService,
