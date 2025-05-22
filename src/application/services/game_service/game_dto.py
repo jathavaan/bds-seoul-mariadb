@@ -20,5 +20,7 @@ class LastScrapedDateResponseDto:
     def to_dict(self) -> dict:
         return {
             "steam_game_id": self.steam_game_id,
-            "last_scraped_date": self.last_scraped_date
+            "last_scraped_date": self.last_scraped_date.strftime(
+                "%Y-%m-%d-%H-%M-%S"
+            ) if self.last_scraped_date else None
         }

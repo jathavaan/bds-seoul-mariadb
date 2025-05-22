@@ -50,7 +50,8 @@ class LastScrapedDateConsumer(ConsumerBase[LastScrapedDateResponseDto]):
         if not game:
             self.__logger.info(f"No game found for Steam game ID {request.game_id}")
             self.__game_repository_service.add_game(steam_game_id=request.game_id)
-            return False, None
+            response = LastScrapedDateResponseDto(steam_game_id=request.game_id, last_scraped_date=None)
+            return True, response
 
         response = LastScrapedDateResponseDto(
             steam_game_id=game.steam_game_id,

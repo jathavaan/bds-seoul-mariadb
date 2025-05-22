@@ -12,7 +12,7 @@ class Config(Enum):
     SQLALCHEMY_STARTUP_WAIT_TIME = 10
 
     KAFKA_BOOTSTRAP_SERVERS = f"{os.getenv('KAFKA_BOOTSTRAP_SERVERS')}:9092"
-    KAFKA_GROUP_ID = "mariadb_consumer_group"
+    KAFKA_GROUP_ID = "seoul"
     KAFKA_POLL_TIMEOUT = 1.0
     KAFKA_REVIEW_TOPIC = "reviews"
     KAFKA_RESULT_TOPIC = "results"
