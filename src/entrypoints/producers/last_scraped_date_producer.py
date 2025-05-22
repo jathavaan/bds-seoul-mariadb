@@ -23,8 +23,8 @@ class LastScrapedDateProducer(ProducerBase[LastScrapedDateResponseDto]):
             callback=self.__delivery_report
         )
 
-        self.__producer.flush()
-        self.__logger.info(f"Sent response back to consumer on the topic {Config.KAFKA_LAST_SCRAPED_DATE_RES_TOPIC.value}")
+        self.__logger.info(
+            f"Sent response back to consumer on the topic {Config.KAFKA_LAST_SCRAPED_DATE_RES_TOPIC.value}")
 
     def close(self) -> None:
         self.__producer.flush()
