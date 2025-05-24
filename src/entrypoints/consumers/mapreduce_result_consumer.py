@@ -24,7 +24,7 @@ class MapreduceResultConsumer(ConsumerBase[bool]):
         self.__logger = logger
         self.__game_repository_service = game_repository_service
         self.__recommendation_repository_service = recommendation_repository_service
-        topics = [Config.KAFKA_RESULT_TOPIC.value]
+        topics = [Config.KAFKA_MR_RESULT_TOPIC.value]
         self.__consumer = Consumer({
             "bootstrap.servers": Config.KAFKA_BOOTSTRAP_SERVERS.value,
             "group.id": Config.KAFKA_GROUP_ID.value,
