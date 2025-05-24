@@ -17,7 +17,6 @@ class LastScrapedDateProducer(ProducerBase[LastScrapedDateResponseDto]):
         self.__producer = Producer({"bootstrap.servers": Config.KAFKA_BOOTSTRAP_SERVERS.value})
 
     def produce(self, producer_content: LastScrapedDateResponseDto) -> None:
-        self.__logger.debug(json.dumps(producer_content.to_dict()))  # TODO: Delete this
         self.__producer.produce(
             topic=Config.KAFKA_LAST_SCRAPED_DATE_RES_TOPIC.value,
             value=json.dumps(producer_content.to_dict()),
