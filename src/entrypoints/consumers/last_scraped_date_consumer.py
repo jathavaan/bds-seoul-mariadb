@@ -1,6 +1,5 @@
 ﻿import json
 import logging
-from datetime import datetime
 
 from confluent_kafka import Consumer
 
@@ -45,17 +44,23 @@ class LastScrapedDateConsumer(ConsumerBase[LastScrapedDateResponseDto]):
 
         request = LastScrapedDateRequestDto(**json.loads(message.value().decode("utf-8")))
         self.__logger.info(f"Request last scraped date for Steam game ID {request.game_id} received")
-
         game = self.__game_repository_service.find_game_by_steam_game_id(request.game_id)
+
         if not game:
             self.__logger.info(f"No game found for Steam game ID {request.game_id}")
             self.__game_repository_service.add_game(steam_game_id=request.game_id)
-            response = LastScrapedDateResponseDto(steam_game_id=request.game_id, last_scraped_date=None)
+            response = LastScrapedDateResponseDto(
+                steam_game_id=request.game_id,
+                last_scraped_date=None,
+                correlation_id=request.correlation_id
+            )
+
             return True, response
 
         response = LastScrapedDateResponseDto(
             steam_game_id=game.steam_game_id,
-            last_scraped_date=game.last_scraped_timestamp
+            last_scraped_date=game.last_scraped_timestamp,
+            correlation_id=request.correlation_id
         )
 
         return True, response
