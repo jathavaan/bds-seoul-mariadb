@@ -19,6 +19,10 @@ class FinalResultProducer(ProducerBase[FinalResultDto]):
         self.__producer = Producer({"bootstrap.servers": Config.KAFKA_BOOTSTRAP_SERVERS.value})
 
     def produce(self, producer_content: FinalResultDto) -> None:
+        self.__logger.info(
+            f"Sending back final result to Steam game ID {producer_content.game_id} with correlation ID {producer_content.correlation_id}"
+        )
+
         self.__producer.produce(
             topic=Config.KAFKA_FINAL_RESULT_TOPIC.value,
             value=json.dumps(producer_content.to_dict())
