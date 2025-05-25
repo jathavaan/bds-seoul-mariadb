@@ -1,1 +1,2 @@
 ﻿from .last_scraped_date_producer import LastScrapedDateProducer
+from .final_result_producer import FinalResultProducer

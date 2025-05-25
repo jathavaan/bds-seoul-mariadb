@@ -16,6 +16,7 @@ class Config(Enum):
     KAFKA_POLL_TIMEOUT = 1.0
     KAFKA_REVIEW_TOPIC = "reviews"
     KAFKA_MR_RESULT_TOPIC = "mapreduce_results"
+    KAFKA_FINAL_RESULT_TOPIC = "final_results"
     KAFKA_LAST_SCRAPED_DATE_REQ_TOPIC = "last_scraped_date_requests"
     KAFKA_LAST_SCRAPED_DATE_RES_TOPIC = "last_scraped_date_responses"
 

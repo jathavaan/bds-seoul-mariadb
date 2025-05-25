@@ -33,3 +33,10 @@ class Recommendation(EntityBase):
         self.sum_recommended = sum_recommended
         self.sum_not_recommended = sum_not_recommended
         self.game_id = game_id
+
+    def to_dict(self) -> dict[str, TimeInterval | int]:
+        return {
+            "time_interval": self.time_interval,
+            "sum_recommended": self.sum_recommended,
+            "sum_not_recommended": self.sum_not_recommended
+        }
