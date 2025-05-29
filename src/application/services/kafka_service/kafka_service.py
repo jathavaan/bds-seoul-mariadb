@@ -36,4 +36,4 @@ class KafkaService:
                 else:
                     self.__logger.error(f"Failed to create topic '{topic}': {e}")
             except Exception as e:
-                self.__logger.error(f"Failed to crate topic {topic}: {e}")
+                self.__logger.error(f"Failed to create topic {topic}: {e}")
