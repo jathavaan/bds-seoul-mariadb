@@ -36,12 +36,10 @@ def main() -> None:
             is_response_ready, last_scraped_date_response = last_scraped_date_consumer.consume()
             if is_response_ready:
                 last_scraped_date_producer.produce(last_scraped_date_response)
-                is_response_ready = False
 
             is_mapreduce_message_ready, mapreduce_message = mapreduce_result_consumer.consume()
             if is_mapreduce_message_ready:
                 final_result_producer.produce(mapreduce_message)
-                is_mapreduce_message_ready = False
     except KeyboardInterrupt:
         pass
     finally:

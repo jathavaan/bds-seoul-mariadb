@@ -7,9 +7,6 @@ import seqlog
 
 from src import Config
 
-logging.getLogger('sqlalchemy').setLevel(logging.ERROR)
-logging.getLogger('sqlalchemy.engine').setLevel(logging.WARNING)
-
 seqlog.log_to_seq(
     server_url=Config.SEQ_URL.value,
     api_key=None,
@@ -18,6 +15,8 @@ seqlog.log_to_seq(
     override_root_logger=True
 )
 
+logging.getLogger('sqlalchemy').level = logging.ERROR
+logging.getLogger('sqlalchemy.engine').level = logging.WARNING
 
 class Logger:
     _instances = {}
