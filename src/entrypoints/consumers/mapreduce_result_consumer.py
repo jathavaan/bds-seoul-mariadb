@@ -73,7 +73,7 @@ class MapreduceResultConsumer(ConsumerBase[tuple[bool, FinalResultDto | None]]):
         )
 
         recommendations = self.__recommendation_repository_service.get_recommendations_by_game_id(game_id=game.id)
-        recommendation_dtos = MapreduceResultConsumer.__convert_recommendation_entities_to_dtos(recommendations)
+        recommendation_dtos = RecommendationRepositoryService.convert_recommendation_entities_to_dtos(recommendations)
 
         final_result_dto = FinalResultDto(
             game_id=game.steam_game_id,
@@ -86,16 +86,3 @@ class MapreduceResultConsumer(ConsumerBase[tuple[bool, FinalResultDto | None]]):
     def close(self) -> None:
         self.__consumer.close()
         self.__logger.info("Shut down map reduce result consumer")
-
-    @staticmethod
-    def __convert_recommendation_entities_to_dtos(recommendations: Sequence[Recommendation]) -> list[
-        RecommendationDto
-    ]:
-        return [
-            RecommendationDto(
-                recommendation.time_interval,
-                float(recommendation.sum_recommended),
-                float(recommendation.sum_not_recommended)
-            )
-            for recommendation in recommendations
-        ]
