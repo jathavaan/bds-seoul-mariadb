@@ -23,7 +23,8 @@ class LastScrapedDateConsumer(ConsumerBase[LastScrapedDateResponseDto]):
             "bootstrap.servers": Config.KAFKA_BOOTSTRAP_SERVERS.value,
             "group.id": Config.KAFKA_GROUP_ID.value,
             "auto.offset.reset": "earliest",
-            "enable.auto.commit": True
+            "enable.auto.commit": True,
+            "max.poll.interval.ms": Config.KAFKA_MAX_POLL_TIMEOUT.value
         })
 
         self.__consumer.subscribe(topics)
