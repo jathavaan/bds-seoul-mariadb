@@ -8,6 +8,7 @@ from sqlalchemy.orm import sessionmaker, Session
 from src import Config
 from src.application.common import Logger
 from src.application.services.game_service import GameRepositoryService
+from src.application.services.kafka_service import KafkaService
 from src.application.services.recommendation_service import RecommendationRepositoryService
 
 from src.domain.base import EntityBase
@@ -25,6 +26,8 @@ def create_db_session(logger: logging.Logger) -> Session:
 class Container(containers.DeclarativeContainer):
     logger = providers.Singleton(Logger.get_logger, name="MariaDB", level=Config.LOGGING_LEVEL.value)
     db_session = providers.Singleton(create_db_session, logger=logger)
+
+    kafka_service = providers.Singleton(KafkaService, logger=logger)
 
     game_repository_service = providers.Singleton(
         GameRepositoryService,

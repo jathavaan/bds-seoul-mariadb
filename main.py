@@ -5,6 +5,7 @@ from src.entrypoints.producers import LastScrapedDateProducer, FinalResultProduc
 container = Container()
 
 logger = container.logger()
+container.kafka_service()
 game_repository_service = container.game_repository_service()
 recommendation_repository_service = container.recommendation_repository_service()
 
