@@ -102,3 +102,16 @@ class RecommendationRepositoryService:
             self.__db_session.commit()
 
         return True
+
+    @staticmethod
+    def convert_recommendation_entities_to_dtos(recommendations: Sequence[Recommendation]) -> list[
+        RecommendationDto
+    ]:
+        return [
+            RecommendationDto(
+                recommendation.time_interval,
+                float(recommendation.sum_recommended),
+                float(recommendation.sum_not_recommended)
+            )
+            for recommendation in recommendations
+        ]

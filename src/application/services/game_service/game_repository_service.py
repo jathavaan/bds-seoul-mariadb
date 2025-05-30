@@ -1,4 +1,5 @@
-﻿import logging
+﻿import datetime
+import logging
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -16,6 +17,11 @@ class GameRepositoryService:
 
     def find_game_by_steam_game_id(self, steam_game_id: int) -> Game | None:
         return self.__db_session.scalars(select(Game).where(Game.steam_game_id == steam_game_id)).first()
+
+    def update_last_scraped_date(self, game: Game) -> None:
+        game.last_scraped_timestamp = datetime.datetime.now()
+        self.__db_session.commit()
+        self.__logger.debug("Updated last scraped date")
 
     def add_game(self, steam_game_id: int) -> None:
         self.__logger.info(f"Adding game with Steam game ID {steam_game_id} to database")
