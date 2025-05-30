@@ -13,7 +13,8 @@ recommendation_repository_service = container.recommendation_repository_service(
 def main() -> None:
     last_scraped_date_consumer = LastScrapedDateConsumer(
         logger=logger,
-        game_repository_service=game_repository_service
+        game_repository_service=game_repository_service,
+        recommendation_repository_service=recommendation_repository_service
     )
 
     last_scraped_date_producer = LastScrapedDateProducer(

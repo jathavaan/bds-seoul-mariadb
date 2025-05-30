@@ -81,6 +81,8 @@ class LastScrapedDateConsumer(ConsumerBase[LastScrapedDateResponseDto]):
                 recommendations=recommendation_dtos
             )
 
+        self.__game_repository_service.update_last_scraped_date(game)
+
         response = LastScrapedDateResponseDto(
             steam_game_id=game.steam_game_id,
             last_scraped_date=game.last_scraped_timestamp,
