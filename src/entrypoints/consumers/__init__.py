@@ -1,3 +1,2 @@
 ﻿from .last_scraped_date_consumer import LastScrapedDateConsumer
 from .mapreduce_result_consumer import MapreduceResultConsumer
-from .maria_db_consumer import MariaDbConsumer
