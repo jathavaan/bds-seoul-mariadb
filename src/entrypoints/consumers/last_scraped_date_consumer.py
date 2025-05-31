@@ -33,7 +33,9 @@ class LastScrapedDateConsumer(ConsumerBase[LastScrapedDateResponseDto]):
             "group.id": Config.KAFKA_GROUP_ID.value,
             "auto.offset.reset": "earliest",
             "enable.auto.commit": True,
-            "max.poll.interval.ms": Config.KAFKA_MAX_POLL_TIMEOUT.value
+            "session.timeout.ms": Config.KAFKA_SESSION_TIMEOUT.value,
+            "max.poll.interval.ms": Config.KAFKA_MAX_POLL_TIMEOUT.value,
+            "heartbeat.interval.ms": Config.KAFKA_HEARTBEAT_INTERVAL.value
         })
 
         self.__consumer.subscribe(topics)

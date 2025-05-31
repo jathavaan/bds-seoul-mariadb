@@ -21,7 +21,10 @@ class Config(Enum):
     KAFKA_LAST_SCRAPED_DATE_REQ_TOPIC = "last_scraped_date_requests"
     KAFKA_LAST_SCRAPED_DATE_RES_TOPIC = "last_scraped_date_responses"
     KAFKA_PROCESS_STATUS_TOPIC = "process_status"
+
+    KAFKA_SESSION_TIMEOUT = 120000
     KAFKA_MAX_POLL_TIMEOUT = 86400000
+    KAFKA_HEARTBEAT_INTERVAL = 3000
 
     LOGGING_LEVEL = logging.INFO
     LOGGER_WIDTH_OFFSET = 90
