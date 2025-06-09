@@ -1,4 +1,18 @@
-# BDS Seoul MariaDB
+# Big Data Systems Team Seoul - MariaDB, Kafka and Seq
+
+This repository contains the code for the Big Data Systems course project, which involves setting up a MariaDB database,
+a Kafka message broker, and a Seq log server. The project is designed to run on multiple Raspberry Pi devices, with each
+device running a different component of the system. The project is built using Docker and Docker Compose, allowing for
+easy deployment and management of the services.
+
+> [!NOTE]
+> To correctly run the project, you need to start this repository first, then the two other repositories. This is the
+> correct order:
+>  1. [bds-seoul-mariadb](https://github.com/jathavaan/bds-seoul-mariadb)
+>  2. [bds-seoul-hadoop](https://github.com/jathavaan/bds-seoul-hadoop)
+>  3. [bds-seoul-client](https://github.com/jathavaan/bds-seoul-client)
+
+
 
 ## Setup
 
