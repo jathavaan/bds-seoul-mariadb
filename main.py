@@ -1,6 +1,7 @@
 from src.application import Container
 from src.entrypoints.consumers import MapreduceResultConsumer, LastScrapedDateConsumer
 from src.entrypoints.producers import LastScrapedDateProducer, FinalResultProducer
+from src.entrypoints.producers.process_status_producer import ProcessStatusProducer
 
 container = Container()
 
@@ -11,6 +12,7 @@ recommendation_repository_service = container.recommendation_repository_service(
 
 
 def main() -> None:
+    process_status_producer = ProcessStatusProducer(logger=logger)
     last_scraped_date_consumer = LastScrapedDateConsumer(
         logger=logger,
         game_repository_service=game_repository_service,
@@ -24,7 +26,8 @@ def main() -> None:
     mapreduce_result_consumer = MapreduceResultConsumer(
         logger=logger,
         game_repository_service=game_repository_service,
-        recommendation_repository_service=recommendation_repository_service
+        recommendation_repository_service=recommendation_repository_service,
+        process_status_producer=process_status_producer
     )
 
     final_result_producer = FinalResultProducer(

@@ -1,15 +1,15 @@
 ﻿import json
 from logging import Logger
-from typing import Sequence
 
 from confluent_kafka import Consumer
 
 from src import Config
 from src.application.services.game_service import GameRepositoryService
-from src.application.services.recommendation_service import RecommendationDto, RecommendationRepositoryService, \
+from src.application.services.recommendation_service import RecommendationRepositoryService, \
     FinalResultDto
-from src.domain.entities import Recommendation
+from src.domain.enums import ProcessType, ProcessStatus
 from src.entrypoints.base import ConsumerBase
+from src.entrypoints.producers.process_status_producer import ProcessStatusProducer
 
 
 class MapreduceResultConsumer(ConsumerBase[tuple[bool, FinalResultDto | None]]):
@@ -17,16 +17,20 @@ class MapreduceResultConsumer(ConsumerBase[tuple[bool, FinalResultDto | None]]):
     __logger: Logger
     __game_repository_service: GameRepositoryService
     __recommendation_repository_service: RecommendationRepositoryService
+    __process_status_producer: ProcessStatusProducer
 
     def __init__(
             self,
             logger: Logger,
             game_repository_service: GameRepositoryService,
-            recommendation_repository_service: RecommendationRepositoryService
+            recommendation_repository_service: RecommendationRepositoryService,
+            process_status_producer: ProcessStatusProducer
     ):
         self.__logger = logger
         self.__game_repository_service = game_repository_service
         self.__recommendation_repository_service = recommendation_repository_service
+        self.__process_status_producer = process_status_producer
+
         topics = [Config.KAFKA_MR_RESULT_TOPIC.value]
         self.__consumer = Consumer({
             "bootstrap.servers": Config.KAFKA_BOOTSTRAP_SERVERS.value,
@@ -60,10 +64,13 @@ class MapreduceResultConsumer(ConsumerBase[tuple[bool, FinalResultDto | None]]):
             self.__logger.error("Steam game ID not provided")
             return False, None
 
+        self.__process_status_producer.produce((steam_game_id, ProcessType.CACHE_RESULT, ProcessStatus.IN_PROGRESS))
+
         mapreduce_result = FinalResultDto(**json.loads(message.value().decode("utf-8")))
         game = self.__game_repository_service.find_game_by_steam_game_id(steam_game_id)
 
         if not game:
+            self.__process_status_producer.produce((steam_game_id, ProcessType.CACHE_RESULT, ProcessStatus.FAILED))
             self.__logger.error(
                 f"Trying to search for a Steam Game ID [{steam_game_id}] that have not been added to the database yet. The data is broken and cannot be added "
             )
@@ -83,6 +90,7 @@ class MapreduceResultConsumer(ConsumerBase[tuple[bool, FinalResultDto | None]]):
             recommendations=recommendation_dtos
         )
 
+        self.__process_status_producer.produce((steam_game_id, ProcessType.CACHE_RESULT, ProcessStatus.COMPLETED))
         return True, final_result_dto
 
     def close(self) -> None:
