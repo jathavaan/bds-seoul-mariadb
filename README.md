@@ -111,7 +111,13 @@ export SEOUL_3_IP=<ip-address-of-seoul-3-raspberry-pi>
 export SEOUL_4_IP=<ip-address-of-seoul-4-raspberry-pi>
 ```
 
-Press `CTRL + X`, then `Y` and `Enter` to save the file. After that, run `source ~/.zshrc` to apply the changes. You
+Press `CTRL + X`, then `Y` and `Enter` to save the file. After that, run
+
+```bash
+source ~/.zshrc
+``` 
+
+to apply the changes. You
 have now set the IP-addresses for the Raspberry Pis, and you only need to do this if the IP-addresses of any Raspberry
 Pi changes.
 
@@ -122,21 +128,18 @@ Using `envsubst`, you can now configure the correct `.env` file. Simply run the 
 envsubst < .env.template > .env
 ```
 
-This will create a `.env` file with the correct IP-addresses for the Raspberry Pis. Run `cat .env` to verify that the
-environment variables are set correctly. The docker images are now ready to be built. Build and start the containers and
-force recreating with the following command:
+This will create a `.env` file with the correct IP-addresses for the Raspberry Pis. Run
 
 ```powershell
-sudo docker compose up -d --force-recreate
+cat .env
 ```
 
-To view the logs of the containers, you can use the following command:
-
-```powershell
-sudo docker logs -f <container-name>
-```
+to verify that the environment variables are set correctly.
 
 ### Starting the services
+
+> [!NOTE]
+> If you are running the project on Raspberry Pis, use `sudo docker compose` instead of `docker-compose`.
 
 The next step is to create the containers by running the following command in the root of `bds-seoul-mariadb` directory:
 
