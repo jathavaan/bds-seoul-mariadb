@@ -12,7 +12,45 @@ easy deployment and management of the services.
 >  2. [bds-seoul-hadoop](https://github.com/jathavaan/bds-seoul-hadoop)
 >  3. [bds-seoul-client](https://github.com/jathavaan/bds-seoul-client)
 
+## Table of Contents
 
+## Prerequisites
+
+- [Docker Desktop](https://docs.docker.com/desktop/)
+- [Python 3.11](https://www.python.org/downloads/release/python-3110/)
+
+## Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/jathavaan/bds-seoul-mariadb.git
+   ```
+
+2. Navigate to the project directory:
+
+   ```bash
+    cd bds-seoul-mariadb
+    ```
+3. Create a virtual environment (optional but recommended):
+   ```bash
+   python -m venv venv
+   ```
+
+4. Activate the virtual environment. On Windows:
+   ```bash
+    venv\Scripts\activate
+    ```
+   On macOS/Linux:
+    ```bash
+    source venv/bin/activate
+    ```
+
+5. Install the required Python packages:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 ## Setup
 
