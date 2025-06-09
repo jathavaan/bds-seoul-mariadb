@@ -14,6 +14,15 @@ easy deployment and management of the services.
 
 ## Table of Contents
 
+- [Table of Contents](#table-of-contents)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Setup](#setup)
+    - [Local setup](#local-setup)
+    - [Raspberry Pi setup](#raspberry-pi-setup)
+    - [Starting the services](#starting-the-services)
+    - [Applying migrations](#applying-migrations)
+
 ## Prerequisites
 
 - [Docker Desktop](https://docs.docker.com/desktop/)
