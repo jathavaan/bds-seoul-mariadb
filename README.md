@@ -111,7 +111,13 @@ export SEOUL_3_IP=<ip-address-of-seoul-3-raspberry-pi>
 export SEOUL_4_IP=<ip-address-of-seoul-4-raspberry-pi>
 ```
 
-Press `CTRL + X`, then `Y` and `Enter` to save the file. After that, run `source ~/.zshrc` to apply the changes. You
+Press `CTRL + X`, then `Y` and `Enter` to save the file. After that, run
+
+```bash
+source ~/.zshrc
+``` 
+
+to apply the changes. You
 have now set the IP-addresses for the Raspberry Pis, and you only need to do this if the IP-addresses of any Raspberry
 Pi changes.
 
