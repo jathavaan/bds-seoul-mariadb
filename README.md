@@ -223,6 +223,19 @@ Then in the root of the `bds-seoul-mariadb` directory, run the following command
 alembic upgrade head
 ```
 
+The logs should look something like this
+
+```plaintext
+INFO  [alembic.runtime.migration] Context impl MariaDBImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade  -> afee4a5ad9c8, Initial migration
+INFO  [alembic.runtime.migration] Running upgrade afee4a5ad9c8 -> 53c314b0b2e9, added playtime recommendations
+INFO  [alembic.runtime.migration] Running upgrade 53c314b0b2e9 -> 1230d54c58c8, added FK constraint between game and playtime_recommendations
+INFO  [alembic.runtime.migration] Running upgrade 1230d54c58c8 -> c07fa1005750, Renamed playtime_recommendations to recommendations
+INFO  [alembic.runtime.migration] Running upgrade c07fa1005750 -> fd594a98230b, Fixed incorrect database reference in FK
+INFO  [alembic.runtime.migration] Running upgrade fd594a98230b -> f7adc547ceca, Fixed typo in enum value
+```
+
 Remember to change the `DB_HOST` back to `host.docker.internal` after applying the migrations. To apply the migrations
 on the Raspberry Pis set the `DB_HOST` in the `.env` file to the IP-address of the second Raspberry Pi on the rack (
 `seoul-2`) and run the same command as above. Restart the `database-script` container after applying the migrations:
