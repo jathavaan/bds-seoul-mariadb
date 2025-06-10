@@ -161,10 +161,10 @@ container with the following command:
 docker-compose up -d kafka
 ```
 
-And then wait another 30~60 seconds before starting the python script container:
+And then wait another 30~60 seconds before starting the database-script container:
 
 ```powershell
-docker-compose up -d python-script
+docker-compose up -d database-script
 ```
 
 To make sure that everything is running correctly, you can check the logs of the containers with the following command:
