@@ -141,6 +141,9 @@ to verify that the environment variables are set correctly.
 > [!NOTE]
 > If you are running the project on Raspberry Pis, use `sudo docker compose` instead of `docker-compose`.
 
+> [!WARNING]
+> Log into Docker CLI before proceeding to the next steps. The processs will fail otherwise. Please read [the Docker documentation](https://docs.docker.com/reference/cli/docker/login/) to learn how to do it.
+
 The next step is to create the containers by running the following command in the root of `bds-seoul-mariadb` directory:
 
 ```powershell
