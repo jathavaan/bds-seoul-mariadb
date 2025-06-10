@@ -236,6 +236,16 @@ INFO  [alembic.runtime.migration] Running upgrade c07fa1005750 -> fd594a98230b, 
 INFO  [alembic.runtime.migration] Running upgrade fd594a98230b -> f7adc547ceca, Fixed typo in enum value
 ```
 
+> [!WARNING]
+> Sometimes you may get an error instead of the logs above. This does not necessarily mean that the migrations failed. To validate this, open DBeaver (or any other DBMS that supports MariaDB) and connect to the database with the following credentials:
+> - Host: `localhost`
+> - Port: `3306`
+> - Database name: `seoul-2-db`
+> - Username: `root`
+> - Password: `seoul-2`
+>
+> Then check if the tables `games` and `recommendations` are present
+
 Remember to change the `DB_HOST` back to `host.docker.internal` after applying the migrations. To apply the migrations
 on the Raspberry Pis set the `DB_HOST` in the `.env` file to the IP-address of the second Raspberry Pi on the rack (
 `seoul-2`) and run the same command as above. Restart the `database-script` container after applying the migrations:
