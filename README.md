@@ -201,6 +201,8 @@ At this point the database-script logs should look something like this:
 2025-06-09T03:01:54.347340767Z [INFO] 2025-06-09 03:01:54 entrypoints.consumers.mapreduce_result_consumer:46             Kafka Consumer connected to bootstrap server [host.docker.internal:9092] with group ID seoul, subscribed to topic(s): mapreduce_results
 ```
 
+To exit the log view please press `CTRL + C`.
+
 If it's your first time running the project you have to apply migrations to the database. See
 the [Applying migrations](#applying-migrations) section for more information. If the previous steps are successful, the
 Hadoop repository can be started. Check the [Hadoop repository](https://github.com/jathavaan/bds-seoul-hadoop) for more
